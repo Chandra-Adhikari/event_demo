@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 	def new
-    	redirect_to home_index_path if current_user.present?
+    	redirect_to events_path if current_user.present?
     end
 
   	def create
@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 	        if @user && @user.valid_password?(params[:session][:password])
 	  			session[:user_id] = @user.id
 	            flash[:notice] = "You have successfully logged In."
-	            redirect_to homes_path
+	            redirect_to events_path
 	        else
 	       		redirect_to login_path
 	          flash[:error] = "Invalid Email or Password"
