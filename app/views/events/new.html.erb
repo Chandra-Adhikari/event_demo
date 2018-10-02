@@ -1,0 +1,71 @@
+<div class="content-wrapper">
+  	<section class="content">
+		<div class="container">
+			<div class="row">
+			    <!-- begin col-6 -->
+	    		<div class="col-md-12">	    	
+					<%= form_for @event,url: events_path do |f|%>
+						
+						<div class="detail-form m-t-40 m-b-40">
+							
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-4 col-md-3 control-label">Event Name</label>
+									<div class="col-sm-8 col-md-7">
+									  <%= f.text_field :title, class: "form-control", required: true, placeholder: "Event Name"%>
+									</div>
+								</div>
+							</div>
+		
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-4 col-md-3 control-label">Event Date & Time</label>
+									<div class="col-sm-8 col-md-7" style="position: relative;">
+									  <%= f.text_field :event_time, class: "form-control", placeholder: "Select Event Date & Time", required: true, :id=>'datetimepicker1'%>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-4 col-md-3 control-label">Event Details</label>
+									<div class="col-sm-8 col-md-7">
+									  <%= f.text_area :description, class: "form-control", required: true, placeholder: "Event Details"%>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<label class="col-sm-4 col-md-3 control-label">Event Attaindee</label>
+									<div class="col-sm-8 col-md-7">
+									   <%= select_tag :user_id, options_for_select(options_for_user_select), {multiple: true, class: "form-control", id: "user_selection_ids", required: true}%>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="text-center attendee-cent-s">
+									<button class="btn btn-primary m-r-5 m-b-5" type="submit">Submit</button>
+
+								</div>
+							</div>
+						</div>
+					<%end%>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<script type="text/javascript">
+	$(function () { 
+            $('#datetimepicker1').datetimepicker({
+            	minDate: 0,
+            	 format: 'YYYY/MM/DD HH:mm'
+            });
+
+            $('#datetimepicker1').change(function(){
+            	alert(this.val());
+            });
+        });
+</script>

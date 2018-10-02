@@ -1,0 +1,84 @@
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+
+   <!-- Main content -->
+  <section class="content">
+
+   <div class="box box-info">
+ <div class="select-user">
+	<%= form_for :search,url: events_path,method: :get do |f|%>
+		<%= f.select :user_id,options_for_user_select,value: params[:search][:user_id], :include_blank => true %>
+		<%= f.submit "Search", class: "search-submit"%>
+	<%end%>
+</div>
+<div class="calendar_display">
+	<div id="calendar"></div>	
+	<div id="events" data-url="<%= @events.to_json %>"> </div>
+</div>
+<div class="list_display pull-right">
+	<%= link_to "Add Event", new_event_path,class: "btn btn-default" %>
+	<div class="table-responsive">
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Event Name</th>
+				<th>Event Date & Time</th>
+				<th>Action</th>											
+			</tr>
+		</thead>
+		
+		<% @events.each do |event| %>
+			<% unless event.eql?(nil) %>
+				<tbody>
+					<tr class="even">
+						<td><%= event.try(:title) %></td>
+						<td><%= event.try(:event_time) %></td>
+						<td>
+						<a href="/events/<%= event.id%>/edit" class="btn btn-link viewbtn-link m-b-5">Edit</a>
+						<a>
+						<%= link_to 'Delete'.html_safe, event_path(event.id), method: :delete,:class=>"btn btn-link viewbtn-link m-b-5", data: {confirm: 'Are you sure to delete this event?' }%></a></td> 
+					</tr>								
+				</tbody>
+			<%end%>
+		<%end%>
+	</table>	
+</div>
+</div>
+</div>
+</section>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+	    console.log( "ready!" );
+
+	    var event = $('#events').data('url');
+  		console.log(event);
+  
+	  console.log(event.length);
+	  var arr = [];
+	  for(var i = 0; i < event.length; i++){
+		    if(event[i].event_time != null ){
+		   h = {};
+		   console.log(event[i].event_time);
+		   h["date"] = event[i].event_time;
+		   h["title"] = event[i].title;
+		   h["id"] = event[i].id;
+		   arr.push(h);
+		 }
+
+		}
+       
+       $('#calendar').fullCalendar({       
+     		events: arr,
+     		eventClick: function(calEvent) {
+			    document.location.replace(window.location.href + '/' + calEvent.id +'/edit');
+			    
+			  }
+       });
+       $("#search_user_id").change(function(){
+       	$(".search-submit").click();
+
+       });
+	});
+</script>
