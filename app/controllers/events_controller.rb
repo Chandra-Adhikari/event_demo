@@ -4,8 +4,13 @@ class EventsController < ApplicationController
 
   def index
   	if params[:search].present?
+      if params[:search][:user_id].present?
   		@user = User.find_by(id: params[:search][:user_id])
   		@events = @user.events.order("event_time asc")
+    else
+      @events = Event.all.order("event_time asc")
+      
+    end
   	else
   		@events = Event.all.order("event_time asc")
   	end
