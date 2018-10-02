@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_action :find_event, except: [:index,:new,:create]
 
   def index
-  	if params[:search][:user_id].present?
+  	if params[:search].present?
   		@user = User.find_by(id: params[:search][:user_id])
   		@events = @user.events.order("event_time asc")
   	else
